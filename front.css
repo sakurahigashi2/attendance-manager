@@ -121,6 +121,7 @@ form#attmgr_admin_scheduler table.attmgr_admin_scheduler td {
 }
 form#attmgr_admin_scheduler table.attmgr_admin_scheduler td.portrait img {
 	width: 50px;
+	height: auto;
 	margin: 8px;
 }
 form#attmgr_admin_scheduler table.attmgr_admin_scheduler td select {
@@ -225,13 +226,13 @@ table.attmgr_monthly_schedule td .info a {
 	padding: 3px 10px;
 }
 
-/* .saturday */ 
+/* .saturday */
 table.attmgr_monthly_schedule th.saturday {
 	background-color: #eef6ff;
 	color: #06c;
 }
 
-/* .sunday */ 
+/* .sunday */
 table.attmgr_monthly_schedule th.sunday {
 	background-color: #ffeef6;
 	color: #c06;
@@ -428,4 +429,3 @@ table.attmgr_guide_weekly .dow {
 		font-size: x-small;
 	}
 }
-
