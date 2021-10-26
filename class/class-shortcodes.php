@@ -584,8 +584,9 @@ EOD;
 		%PORTRAIT%
 	</div>
 	<div class="post-info">
-		<div class="name">%NAME%</div>
 		<div class="attendance">%ATTENDANCE%</div>
+		<div class="name">%NAME%%AGE%</div>
+		%SIZE%
 	</div>
 </li>
 EOD;
@@ -596,6 +597,8 @@ EOD;
 						'%PORTRAIT%',
 						'%NAME%',
 						'%ATTENDANCE%',
+						'%AGE%',
+						'%SIZE%'
 					);
 
 					// Repelace: Value
@@ -607,11 +610,23 @@ EOD;
 					}
 					$starttime = apply_filters( 'attmgr_time_format', $attendance[$s->data['ID']]['starttime'] );
 					$endtime   = apply_filters( 'attmgr_time_format', $attendance[$s->data['ID']]['endtime'] );
+					$age = get_user_meta( $s->data['ID'], ATTMGR::PLUGIN_ID.'_staff_age', true );
+					if ( ! empty( $age ) ) {
+						$age = '<span class="age">('.$age.')</span>';
+					}
+					$size = get_user_meta( $s->data['ID'], ATTMGR::PLUGIN_ID.'_staff_size', true );
+					if ( ! empty( $size ) ) {
+						$size = '<div class="attendance">'.$size.'</div>';
+					} else {
+						$size = '<div class="attendance">ー</div>';
+					}
 
 					$replace = array(
 						$portrait,
 						$name,
 						sprintf( '%s ~ %s', $starttime, $endtime ),
+						$age,
+						$size
 					);
 					$args = array(
 						'result' => $result,
