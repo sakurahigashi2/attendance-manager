@@ -147,7 +147,7 @@ class ATTMGR_Shortcode {
 		extract(
 			shortcode_atts(
 				array(
-					'start' => 0,			// 0:Sun, 1:Mon, ... 6:Sut 
+					'start' => 0,			// 0:Sun, 1:Mon, ... 6:Sut
 					'past'  => true,
 					'name_key'  => 'display_name',
 				),
@@ -295,7 +295,7 @@ EOD;
 				$t = $starttime + 60*60*24*$i;
 				$w = date( 'w', $t );
 				$date = '';
-				$date = sprintf( '<span class="date">%s</span><span class="dow">(%s)</span>', 
+				$date = sprintf( '<span class="date">%s</span><span class="dow">(%s)</span>',
 					apply_filters( 'attmgr_date_format', $date, $t ),
 					ATTMGR_Calendar::dow( $w )
 				);
@@ -441,7 +441,7 @@ EOD;
 				$t = $starttime + 60*60*24*$i;
 				$w = date( 'w', $t );
 				$date = '';
-				$date = sprintf( '<span class="date">%s</span><span class="dow">(%s)</span>', 
+				$date = sprintf( '<span class="date">%s</span><span class="dow">(%s)</span>',
 					apply_filters( 'attmgr_date_format', $date, $t ),
 					ATTMGR_Calendar::dow( $w )
 				);
@@ -587,7 +587,6 @@ EOD;
 		<div class="name">%NAME%</div>
 		<div class="attendance">%ATTENDANCE%</div>
 	</div>
-	<div class="clear">&nbsp;</div>
 </li>
 EOD;
 					$format = apply_filters( 'attmgr_shortcode_daily_format', $format );
@@ -655,8 +654,8 @@ EOD;
 			[date]  => '2015-11-03',
 			[guide] => 'week',		// '1week', 'week'
 			[past]  -> true,
-			[html]  => '', 
-			[begin] => '', 
+			[html]  => '',
+			[begin] => '',
 		)
 		*/
 		extract( $args );	// $date, $guide, $html
@@ -709,7 +708,7 @@ EOD;
 					list( $y, $m, $d ) = explode('-', $attmgr->page['begin_date'] );
 					$currenttime = mktime( 0, 0, 0, $m, $d, $y );
 					$current_date = date('Y-m-d', $currenttime );
-					$text = sprintf( '<span class="date">%s</span><span class="dow">(%s)</span> %s', 
+					$text = sprintf( '<span class="date">%s</span><span class="dow">(%s)</span> %s',
 						apply_filters( 'attmgr_date_format', $current_date, $currenttime ),
 						ATTMGR_Calendar::dow( date( 'w', $currenttime ) ),
 						$text
