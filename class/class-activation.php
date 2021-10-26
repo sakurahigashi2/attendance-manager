@@ -3,7 +3,7 @@
  *	Activation
  */
 class ATTMGR_Activation {
-	/** 
+	/**
 	 *	Load
 	 */
 	public static function load() {
@@ -17,7 +17,7 @@ class ATTMGR_Activation {
 		register_uninstall_hook( $mypluginfile, array( 'ATTMGR_Activation', 'uninstall' ) );
 	}
 
-	/** 
+	/**
 	 *	Schedule table name
 	 */
 	public static function schedule_table( $table ) {
@@ -25,7 +25,7 @@ class ATTMGR_Activation {
 		return $wpdb->prefix.ATTMGR::TABLEPREFIX.'schedule';
 	}
 
-	/** 
+	/**
 	 *	Activation
 	 */
 	public static function activation() {
@@ -33,25 +33,35 @@ class ATTMGR_Activation {
 		self::insert_specialpages();
 	}
 
-	/** 
+	/**
 	 *	Deactivation
 	 */
 	public static function deactivation() {
 		wp_clear_scheduled_hook( ATTMGR::PLUGIN_ID.'_cron' );
 	}
 
-	/** 
+	/**
 	 *	Uninstall
 	 */
 	public static function uninstall() {
 		global $wpdb;
 		delete_metadata( 'user', 0, ATTMGR::PLUGIN_ID.'_ex_attr_staff', '', true );
 		delete_metadata( 'user', 0, ATTMGR::PLUGIN_ID.'_mypage_id', '', true );
+		delete_metadata( 'user', 0, ATTMGR::PLUGIN_ID.'_staff_name', '', true );
+		delete_metadata( 'user', 0, ATTMGR::PLUGIN_ID.'_staff_age', '', true );
+		delete_metadata( 'user', 0, ATTMGR::PLUGIN_ID.'_staff_size', '', true );
+		delete_metadata( 'user', 0, ATTMGR::PLUGIN_ID.'_staff_blood', '', true );
+		delete_metadata( 'user', 0, ATTMGR::PLUGIN_ID.'_staff_personality', '', true );
+		delete_metadata( 'user', 0, ATTMGR::PLUGIN_ID.'_staff_hobby', '', true );
+		delete_metadata( 'user', 0, ATTMGR::PLUGIN_ID.'_staff_birthplace', '', true );
+		delete_metadata( 'user', 0, ATTMGR::PLUGIN_ID.'_staff_skill', '', true );
+		delete_metadata( 'user', 0, ATTMGR::PLUGIN_ID.'_staff_message', '', true );
+		delete_metadata( 'user', 0, ATTMGR::PLUGIN_ID.'_staff_comment', '', true );
 		delete_option( ATTMGR::PLUGIN_ID );
 		delete_option( ATTMGR::PLUGIN_ID.'_version' );
 	}
 
-	/** 
+	/**
 	 *	Create table
 	 */
 	public static function create_table() {
@@ -83,7 +93,7 @@ EOD;
 		return;
 	}
 
-	/** 
+	/**
 	 *	Create table
 	 */
 	public static function insert_specialpages() {
@@ -129,7 +139,7 @@ EOD;
 		self::insert_pages( $param );
 	}
 
-	/** 
+	/**
 	 *	Insert pages
 	 */
 	public static function insert_pages( $param ) {
@@ -138,7 +148,7 @@ EOD;
 			$p = get_page_by_path( $page['post_name'] );
 			if ( empty( $p ) ) {
 				$args = array_merge(
-					$page, 
+					$page,
 					array(
 						'post_type'      => 'page',
 						'comment_status' => 'closed',
@@ -154,7 +164,7 @@ EOD;
 					$c = get_page_by_path( $page['post_name'].'/'.$child['post_name'] );
 					if ( empty( $c ) ) {
 						$args = array_merge(
-							$child, 
+							$child,
 							array(
 								'post_parent'    => $parent_id,
 								'post_type'      => 'page',
