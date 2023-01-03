@@ -1,11 +1,11 @@
 <?php
-/** 
+/**
  *	Functions
  */
 
 class ATTMGR_Function {
 	/*
-	 *	Load 
+	 *	Load
 	 */
 	public static function load() {
 		add_action( 'init', array( 'ATTMGR_Updation', 'plugin_update') );
@@ -27,7 +27,7 @@ class ATTMGR_Function {
 		add_action( ATTMGR::PLUGIN_ID.'_front_script', array( 'ATTMGR_Function', 'add_front_script' ) );
 	}
 
-	/** 
+	/**
 	 *	Load css and js for front page
 	 */
 	public static function front_script() {
@@ -49,7 +49,7 @@ class ATTMGR_Function {
 			'all'									// media
 		);
 		// js
-		wp_enqueue_script( 
+		wp_enqueue_script(
 			ATTMGR::PLUGIN_ID.'_script',			// handle
 			$attmgr->mypluginurl.'front.js',		// src
 			array( 'jquery' ),						// deps
@@ -71,7 +71,7 @@ class ATTMGR_Function {
 		}
 		// Use Avatar
 		else {
-			$p = get_avatar( $staff->data['ID'] );
+			$p = get_avatar( $staff->data['ID'], 400 );
 			$search = array( "class='", 'class="' );
 			$replace = array( "class='wp-post-image ", 'class="wp-post-image ' );
 			$p = str_replace( $search, $replace, $p );

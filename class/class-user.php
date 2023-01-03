@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  *	User
  */
 
@@ -8,7 +8,7 @@ class ATTMGR_User {
 	public $data = array();
 	public $loggedin = null;
 
-	/** 
+	/**
 	 *	CONSTRUCT
 	 */
 	public function __construct( $user_id = null ) {
@@ -69,7 +69,7 @@ class ATTMGR_User {
 		add_action( 'manage_users_custom_column', array( 'ATTMGR_User', 'custom_column' ), 10, 3 );
 	}
 
-	/** 
+	/**
 	 *	Log-in inspection
 	 */
 	public function is_loggedin() {
@@ -79,8 +79,8 @@ class ATTMGR_User {
 		return false;
 	}
 
-	/** 
-	 *	User type inspection 
+	/**
+	 *	User type inspection
 	 */
 	public function is_type( $type ) {
 		// Types are 'admin', 'staff', 'member'..
@@ -89,8 +89,8 @@ class ATTMGR_User {
 		return $result;
 	}
 
-	/** 
-	 *	User type 'admin' inspection 
+	/**
+	 *	User type 'admin' inspection
 	 */
 	public function is_admin() {
 		return $this->is_type( 'admin' );
@@ -102,8 +102,8 @@ class ATTMGR_User {
 		return $result;
 	}
 
-	/** 
-	 *	User type 'staff' inspection 
+	/**
+	 *	User type 'staff' inspection
 	 */
 	public function is_staff() {
 		return $this->is_type( 'staff' );
@@ -116,7 +116,7 @@ class ATTMGR_User {
 		return $result;
 	}
 
-	/** 
+	/**
 	 *	User who works today
 	 */
 	public function is_work( $date ) {
@@ -137,7 +137,7 @@ class ATTMGR_User {
 		return false;
 	}
 
-	/** 
+	/**
 	 *	User working from yesterday
 	 */
 	public function is_work_from_yesterday( $date ) {
@@ -153,7 +153,7 @@ class ATTMGR_User {
 			// e.g. 19:00 ~ 28:00 -> 19:00 ~ 04:00
 			$endtime = ATTMGR_Form::time_calc( $attmgr->option['general']['endtime'], 0, false );
 			if ( $date == $today && $attmgr->option['general']['starttime'] > $endtime ) {
-				// e.g. now 02:15 (end 04:00) 
+				// e.g. now 02:15 (end 04:00)
 				if ( $now_time < $endtime ) {
 					$date = date( 'Y-m-d', $now - ( 60 * 60 * 24 ) );
 					$query = "SELECT * FROM $table "
@@ -170,8 +170,8 @@ class ATTMGR_User {
 		return false;
 	}
 
-	/** 
-	 *	Admin acting user inspection 
+	/**
+	 *	Admin acting user inspection
 	 */
 	public function is_acting() {
 		if ( $this->is_loggedin() && $this->is_admin() && isset( $_SESSION['acting_as'] ) ) {
@@ -202,7 +202,7 @@ class ATTMGR_User {
 		}
 	}
 
-	/** 
+	/**
 	 *	Can edit admin scheduler
 	 */
 	public function can_edit_admin_scheduler() {
@@ -217,7 +217,7 @@ class ATTMGR_User {
 		return $result;
 	}
 
-	/**  
+	/**
 	 *	Get user info
 	 */
 	public static function get_user( $user_id ) {
@@ -234,9 +234,9 @@ class ATTMGR_User {
 					[user_pass] => **********************************
 					[user_nicename] => user02
 					[user_email] => hoge@example.com
-					[user_url] => 
+					[user_url] =>
 					[user_registered] => 2013-01-01 00:00:00
-					[user_activation_key] => 
+					[user_activation_key] =>
 					[user_status] => 0
 					[display_name] => user02
 				)
@@ -253,7 +253,7 @@ class ATTMGR_User {
 					[level_0] => 1
 					[subscriber] => 1
 				)
-			[filter] => 
+			[filter] =>
 		)
 		*/
 		$userdata = array();
@@ -263,8 +263,8 @@ class ATTMGR_User {
 		}
 		return $userdata;
 	}
- 
-	/** 
+
+	/**
 	 *	Get user data
 	 */
 	public static function get_user_data( $userdata, $user ) {
@@ -288,9 +288,9 @@ class ATTMGR_User {
 					[user_pass] => ***
 					[user_nicename] => hoge
 					[user_email] => hoge@localhost.localdomain
-					[user_url] => 
+					[user_url] =>
 					[user_registered] => 20XX-XX-XX 00:00:00
-					[user_activation_key] => 
+					[user_activation_key] =>
 					[user_status] => 0
 					[display_name] => hoge
 					[caps] => Array(
@@ -303,7 +303,7 @@ class ATTMGR_User {
 					[allcaps] => Array(
 							...
 						)
-					[filter] => 
+					[filter] =>
 					[attmgr_ex_attr_staff] => 1
 				)
 
@@ -314,7 +314,7 @@ class ATTMGR_User {
 		return $userdata;
 	}
 
-	/**  
+	/**
 	 *	Get all staff
 	 */
 	public static function get_all_staff( $args = null ) {
@@ -343,7 +343,7 @@ class ATTMGR_User {
 		return $staff;
 	}
 
-	/**  
+	/**
 	 *	Get working staff
 	 */
 	public static function get_working_staff( $date, $yesterday = false ) {
@@ -401,6 +401,26 @@ class ATTMGR_User {
 		global $pagenow;
 
 		$staff_attr = ATTMGR::PLUGIN_ID.'_ex_attr_staff';
+		$staff_age = ATTMGR::PLUGIN_ID.'_staff_age';
+		$staff_size = ATTMGR::PLUGIN_ID.'_staff_size';
+		$staff_blood = ATTMGR::PLUGIN_ID.'_staff_blood';
+		$staff_personality = ATTMGR::PLUGIN_ID.'_staff_personality';
+		$staff_hobby = ATTMGR::PLUGIN_ID.'_staff_hobby';
+		$staff_birthplace = ATTMGR::PLUGIN_ID.'_staff_birthplace';
+		$staff_skill = ATTMGR::PLUGIN_ID.'_staff_skill';
+		$staff_message = ATTMGR::PLUGIN_ID.'_staff_message';
+		$staff_comment = ATTMGR::PLUGIN_ID.'_staff_comment';
+
+		$_staff_age = get_user_meta( $user->ID, $staff_age, true );
+		$_staff_size = get_user_meta( $user->ID, $staff_size, true );
+		$_staff_blood = get_user_meta( $user->ID, $staff_blood, true );
+		$_staff_personality = get_user_meta( $user->ID, $staff_personality, true );
+		$_staff_hobby = get_user_meta( $user->ID, $staff_hobby, true );
+		$_staff_birthplace = get_user_meta( $user->ID, $staff_birthplace, true );
+		$_staff_skill = get_user_meta( $user->ID, $staff_skill, true );
+		$_staff_message = get_user_meta( $user->ID, $staff_message, true );
+		$_staff_comment = get_user_meta( $user->ID, $staff_comment, true );
+
 		$checked = $readonly = '';
 		if ( in_array( $pagenow, array( 'profile.php', 'user-edit.php' ) )
 			&& get_user_meta( $user->ID, $staff_attr, true ) ) {
@@ -415,7 +435,63 @@ class ATTMGR_User {
 <table id="%TABLE_ID%" class="form-table %TITLE_ID%">
 	<tr>
 		<th scope="row">%STAFF_LABEL%</th>
-		<td><label for="%STAFF_ATTR%"><input type="checkbox" name="%STAFF_ATTR%" id="%STAFF_ATTR%" value="1" %CHECKED% %READONLY% /> %STAFF_DESCRIPTION%</label></td>
+		<td>
+			<label for="%STAFF_ATTR%"><input type="checkbox" name="%STAFF_ATTR%" id="%STAFF_ATTR%" value="1" %CHECKED% %READONLY% /> %STAFF_DESCRIPTION%</label>
+		</td>
+	</tr>
+	<tr>
+		<th scope="row">年齢</th>
+		<td>
+			<input type="number" name="{$staff_age}" id="{$staff_age}" value="{$_staff_age}" />
+		</td>
+	</tr>
+	<tr>
+		<th scope="row">サイズ</th>
+		<td>
+			<input type="text" name="{$staff_size}" id="{$staff_size}" value="{$_staff_size}" />
+		</td>
+	</tr>
+	<tr>
+		<th scope="row">血液型</th>
+		<td>
+			<input type="text" name="{$staff_blood}" id="{$staff_blood}" value="{$_staff_blood}" />
+		</td>
+	</tr>
+	<tr>
+		<th scope="row">性格</th>
+		<td>
+			<input type="text" name="{$staff_personality}" id="{$staff_personality}" value="{$_staff_personality}" />
+		</td>
+	</tr>
+	<tr>
+		<th scope="row">趣味</th>
+		<td>
+			<input type="text" name="{$staff_hobby}" id="{$staff_hobby}" value="{$_staff_hobby}" />
+		</td>
+	</tr>
+	<tr>
+		<th scope="row">出身地</th>
+		<td>
+			<input type="text" name="{$staff_birthplace}" id="{$staff_birthplace}" value="{$_staff_birthplace}" />
+		</td>
+	</tr>
+	<tr>
+		<th scope="row">得意な手技</th>
+		<td>
+			<input type="text" name="{$staff_skill}" id="{$staff_skill}" value="{$_staff_skill}" />
+		</td>
+	</tr>
+	<tr>
+		<th scope="row">スタッフからのメッセージ</th>
+		<td>
+			<textarea name="{$staff_message}" id="{$staff_message}">{$_staff_message}</textarea>
+		</td>
+	</tr>
+	<tr>
+		<th scope="row">管理者からのコメント</th>
+		<td>
+			<textarea name="{$staff_comment}" id="{$staff_comment}">{$_staff_comment}</textarea>
+		</td>
 	</tr>
 </table>
 EOD;
@@ -458,9 +534,28 @@ EOD;
 		} else {
 			update_user_meta( $user_id, $staff_attr, false );
 		}
+
+		$meta_keys = array (
+			ATTMGR::PLUGIN_ID.'_staff_age',
+			ATTMGR::PLUGIN_ID.'_staff_size',
+			ATTMGR::PLUGIN_ID.'_staff_blood',
+			ATTMGR::PLUGIN_ID.'_staff_personality',
+			ATTMGR::PLUGIN_ID.'_staff_hobby',
+			ATTMGR::PLUGIN_ID.'_staff_birthplace',
+			ATTMGR::PLUGIN_ID.'_staff_skill',
+			ATTMGR::PLUGIN_ID.'_staff_message',
+			ATTMGR::PLUGIN_ID.'_staff_comment'
+		);
+		foreach ( $meta_keys as $key ) {
+			if( isset( $_POST[ $key ] ) ) {
+				if ( $_POST[ $key ] ) {
+					update_user_meta( $user_id, $key, $_POST[ $key ] );
+				}
+			}
+		}
 	}
 
-	/** 
+	/**
 	 *	Save url of staff's page
 	 */
 	public static function save_staff_url( $post_id ) {
@@ -472,7 +567,7 @@ EOD;
 		}
 	}
 
-	/** 
+	/**
 	 *	Delete url of staff's page
 	 */
 	public static function delete_staff_url( $post_id ) {
@@ -505,7 +600,7 @@ EOD;
 		return false;
 	}
 
-	/** 
+	/**
 	 *	Add user list column
 	 */
 	public static function add_columns( $column_headers ) {
@@ -514,13 +609,13 @@ EOD;
 		return $column_headers;
 	}
 
-	/** 
+	/**
 	 *	Customize user list
 	 */
 	public static function custom_column( $custom_column, $column_name, $user_id ) {
-	
+
 		$user_info = get_userdata( $user_id );
-	
+
 		if ( $column_name == ATTMGR::PLUGIN_ID.'_ex_attr_staff' ) {
 			${ $column_name } = ( $user_info->$column_name == 1 ) ? __( 'Staff', ATTMGR::TEXTDOMAIN ) : '';
 		}
@@ -528,7 +623,7 @@ EOD;
 			${ $column_name } = $user_info->$column_name;
 		}
 		$custom_column = "\t".${ $column_name }."\n";
-	
+
 		return $custom_column;
 	}
 }

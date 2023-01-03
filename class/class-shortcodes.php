@@ -147,7 +147,7 @@ class ATTMGR_Shortcode {
 		extract(
 			shortcode_atts(
 				array(
-					'start' => 0,			// 0:Sun, 1:Mon, ... 6:Sut 
+					'start' => 0,			// 0:Sun, 1:Mon, ... 6:Sut
 					'past'  => true,
 					'name_key'  => 'display_name',
 				),
@@ -295,7 +295,7 @@ EOD;
 				$t = $starttime + 60*60*24*$i;
 				$w = date( 'w', $t );
 				$date = '';
-				$date = sprintf( '<span class="date">%s</span><span class="dow">(%s)</span>', 
+				$date = sprintf( '<span class="date">%s</span><span class="dow">(%s)</span>',
 					apply_filters( 'attmgr_date_format', $date, $t ),
 					ATTMGR_Calendar::dow( $w )
 				);
@@ -441,7 +441,7 @@ EOD;
 				$t = $starttime + 60*60*24*$i;
 				$w = date( 'w', $t );
 				$date = '';
-				$date = sprintf( '<span class="date">%s</span><span class="dow">(%s)</span>', 
+				$date = sprintf( '<span class="date">%s</span><span class="dow">(%s)</span>',
 					apply_filters( 'attmgr_date_format', $date, $t ),
 					ATTMGR_Calendar::dow( $w )
 				);
@@ -584,10 +584,10 @@ EOD;
 		%PORTRAIT%
 	</div>
 	<div class="post-info">
-		<div class="name">%NAME%</div>
 		<div class="attendance">%ATTENDANCE%</div>
+		<div class="name">%NAME%%AGE%</div>
+		%SIZE%
 	</div>
-	<div class="clear">&nbsp;</div>
 </li>
 EOD;
 					$format = apply_filters( 'attmgr_shortcode_daily_format', $format );
@@ -597,6 +597,8 @@ EOD;
 						'%PORTRAIT%',
 						'%NAME%',
 						'%ATTENDANCE%',
+						'%AGE%',
+						'%SIZE%'
 					);
 
 					// Repelace: Value
@@ -608,11 +610,23 @@ EOD;
 					}
 					$starttime = apply_filters( 'attmgr_time_format', $attendance[$s->data['ID']]['starttime'] );
 					$endtime   = apply_filters( 'attmgr_time_format', $attendance[$s->data['ID']]['endtime'] );
+					$age = get_user_meta( $s->data['ID'], ATTMGR::PLUGIN_ID.'_staff_age', true );
+					if ( ! empty( $age ) ) {
+						$age = '<span class="age">('.$age.')</span>';
+					}
+					$size = get_user_meta( $s->data['ID'], ATTMGR::PLUGIN_ID.'_staff_size', true );
+					if ( ! empty( $size ) ) {
+						$size = '<div class="attendance">'.$size.'</div>';
+					} else {
+						$size = '<div class="attendance">ー</div>';
+					}
 
 					$replace = array(
 						$portrait,
 						$name,
 						sprintf( '%s ~ %s', $starttime, $endtime ),
+						$age,
+						$size
 					);
 					$args = array(
 						'result' => $result,
@@ -655,8 +669,8 @@ EOD;
 			[date]  => '2015-11-03',
 			[guide] => 'week',		// '1week', 'week'
 			[past]  -> true,
-			[html]  => '', 
-			[begin] => '', 
+			[html]  => '',
+			[begin] => '',
 		)
 		*/
 		extract( $args );	// $date, $guide, $html
@@ -709,7 +723,7 @@ EOD;
 					list( $y, $m, $d ) = explode('-', $attmgr->page['begin_date'] );
 					$currenttime = mktime( 0, 0, 0, $m, $d, $y );
 					$current_date = date('Y-m-d', $currenttime );
-					$text = sprintf( '<span class="date">%s</span><span class="dow">(%s)</span> %s', 
+					$text = sprintf( '<span class="date">%s</span><span class="dow">(%s)</span> %s',
 						apply_filters( 'attmgr_date_format', $current_date, $currenttime ),
 						ATTMGR_Calendar::dow( date( 'w', $currenttime ) ),
 						$text
